@@ -58,7 +58,7 @@ export function buildWhere(params: CatalogParams): Prisma.ProductWhereInput {
   const max = Number(params.max);
   if (params.min && Number.isFinite(min)) and.push({ price: { gte: min } });
   if (params.max && Number.isFinite(max)) and.push({ price: { lte: max } });
-  if (params.ofertas === "1") and.push({ compareAtPrice: { not: null } });
+  if (params.ofertas === "1") and.push({ compareAtPrice: { gt: 0 } });
   return { AND: and };
 }
 
@@ -153,7 +153,7 @@ export function getFeatured(take = 8) {
 
 export function getOnSale(take = 8) {
   return prisma.product.findMany({
-    where: { isActive: true, compareAtPrice: { not: null }, stock: { gt: 0 } },
+    where: { isActive: true, compareAtPrice: { gt: 0 }, stock: { gt: 0 } },
     orderBy: { price: "desc" },
     take,
     select: productCardSelect,

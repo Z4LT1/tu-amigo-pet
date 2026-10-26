@@ -68,14 +68,23 @@ export const appointmentSchema = z.object({
   notes: z.string().trim().max(400).optional(),
 });
 
+/**
+ * Montos opcionales del formulario: un campo vacío (o 0) significa "sin valor".
+ * Sin este paso, z.coerce convierte "" en 0 y el producto aparecería como oferta.
+ */
+const optionalAmount = z.preprocess(
+  (v) => (v === "" || v === null || v === undefined || Number(v) === 0 ? undefined : v),
+  z.coerce.number().int().positive("Ingresa un monto mayor a cero.").optional(),
+);
+
 export const productSchema = z.object({
   name: z.string().trim().min(3).max(120),
   sku: z.string().trim().min(2).max(40),
   shortDescription: z.string().trim().min(10).max(200),
   description: z.string().trim().min(10).max(4000),
   price: z.coerce.number().int().min(0),
-  compareAtPrice: z.coerce.number().int().min(0).optional().or(z.literal("").transform(() => undefined)),
-  cost: z.coerce.number().int().min(0).optional().or(z.literal("").transform(() => undefined)),
+  compareAtPrice: optionalAmount,
+  cost: optionalAmount,
   minStock: z.coerce.number().int().min(0),
   species: z.enum(["PERRO", "GATO", "AMBOS", "OTROS"]),
   lifeStage: z.enum(["CACHORRO", "ADULTO", "SENIOR", "TODAS"]),
