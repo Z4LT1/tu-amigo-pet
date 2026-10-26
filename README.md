@@ -47,7 +47,7 @@ La identidad visual nace del propio local: las cortinas metálicas pintadas a ma
 |---|---|
 | Framework | Next.js 15 (App Router, Server Components, Server Actions) |
 | Lenguaje | TypeScript |
-| Base de datos | Prisma ORM. SQLite en desarrollo y PostgreSQL en producción |
+| Base de datos | PostgreSQL con Prisma ORM (Prisma Postgres local en desarrollo, Neon en la nube) |
 | Estilos | CSS propio con CSS Modules y tokens de diseño, sin framework de UI |
 | Tipografía | Archivo (variable, con eje de ancho) |
 | Estado del carrito | Zustand con persistencia local |
@@ -103,6 +103,7 @@ Requisitos: Node.js 20 o superior.
 ```bash
 npm install
 cp .env.example .env      # completar AUTH_SECRET y ADMIN_PASSWORD
+npx prisma dev --detach   # Postgres local (o usar una URL de Neon en .env)
 npm run db:push
 npm run db:seed
 npm run dev

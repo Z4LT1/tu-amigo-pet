@@ -15,7 +15,7 @@ export default async function ProductsAdmin({ searchParams }: Props) {
     prisma.product.findMany({
       where: {
         AND: [
-          q ? { OR: [{ name: { contains: q } }, { sku: { contains: q } }] } : {},
+          q ? { OR: [{ name: { contains: q, mode: "insensitive" } }, { sku: { contains: q, mode: "insensitive" } }] } : {},
           categoria ? { category: { slug: categoria } } : {},
           estado === "activos" ? { isActive: true } : estado === "inactivos" ? { isActive: false } : {},
         ],

@@ -40,10 +40,10 @@ export function buildWhere(params: CatalogParams): Prisma.ProductWhereInput {
   if (q) {
     and.push({
       OR: [
-        { name: { contains: q } },
-        { shortDescription: { contains: q } },
-        { brand: { name: { contains: q } } },
-        { category: { name: { contains: q } } },
+        { name: { contains: q, mode: "insensitive" } },
+        { shortDescription: { contains: q, mode: "insensitive" } },
+        { brand: { name: { contains: q, mode: "insensitive" } } },
+        { category: { name: { contains: q, mode: "insensitive" } } },
       ],
     });
   }

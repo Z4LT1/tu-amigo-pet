@@ -13,7 +13,7 @@ Pasos para llevar el prototipo a un sitio público operado por el negocio. Cada 
 | Componente | Opción recomendada | Notas |
 |---|---|---|
 | Aplicación | Vercel | Despliegue automático desde GitHub, HTTPS incluido |
-| Base de datos | PostgreSQL administrado (Neon o Supabase) | Cambiar `provider = "postgresql"` en `prisma/schema.prisma` |
+| Base de datos | PostgreSQL administrado (Neon o Supabase) | Solo cambia `DATABASE_URL` |
 | Imágenes | Almacenamiento de objetos (Vercel Blob o S3) | Para las fotos que suba el local |
 | Respaldos | Copia diaria automática de la base de datos | Incluida en los planes pagados |
 

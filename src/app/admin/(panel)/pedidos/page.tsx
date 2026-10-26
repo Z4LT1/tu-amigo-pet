@@ -17,7 +17,7 @@ export default async function OrdersAdmin({ searchParams }: Props) {
     prisma.order.findMany({
       where: {
         status: statusFilter,
-        ...(q ? { OR: [{ code: { contains: q.toUpperCase() } }, { customerName: { contains: q } }, { email: { contains: q.toLowerCase() } }] } : {}),
+        ...(q ? { OR: [{ code: { contains: q.toUpperCase(), mode: "insensitive" } }, { customerName: { contains: q, mode: "insensitive" } }, { email: { contains: q.toLowerCase(), mode: "insensitive" } }] } : {}),
       },
       orderBy: { createdAt: "desc" },
       include: { _count: { select: { items: true } } },

@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const items = await prisma.product.findMany({
     where: {
       isActive: true,
-      OR: [{ name: { contains: q } }, { brand: { name: { contains: q } } }, { category: { name: { contains: q } } }],
+      OR: [{ name: { contains: q, mode: "insensitive" } }, { brand: { name: { contains: q, mode: "insensitive" } } }, { category: { name: { contains: q, mode: "insensitive" } } }],
     },
     take: 6,
     orderBy: [{ isFeatured: "desc" }, { stock: "desc" }],

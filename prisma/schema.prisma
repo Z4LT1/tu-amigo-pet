@@ -1,13 +1,13 @@
-// Modelo de datos de Tu Amigo Pet.
-// En desarrollo se usa SQLite; para producción basta con cambiar el provider
-// a "postgresql" y apuntar DATABASE_URL a la instancia correspondiente.
+// Modelo de datos de Tu Amigo Pet (PostgreSQL).
+// En desarrollo se puede usar `npx prisma dev` (Postgres local) y en producción
+// una base administrada como Neon; solo cambia DATABASE_URL.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
