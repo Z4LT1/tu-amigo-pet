@@ -1,0 +1,173 @@
+.hero {
+  padding-block: 2rem clamp(2.5rem, 6vw, 4.5rem);
+  background: var(--sky-50);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.hero h1 {
+  margin-top: 1rem;
+  font-size: var(--fs-3xl);
+  color: var(--sky-700);
+  max-width: 16ch;
+}
+
+.lead {
+  margin-top: 1rem;
+  max-width: 54ch;
+  font-size: var(--fs-lg);
+  color: var(--ink-80);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.8rem;
+}
+
+.next {
+  color: var(--ink-60);
+}
+
+.next strong {
+  color: var(--ink);
+}
+
+.heroPhoto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.heroPhoto img,
+.daycarePhoto img {
+  object-fit: cover;
+}
+
+.h2 {
+  font-size: var(--fs-2xl);
+  margin-bottom: 1.5rem;
+}
+
+.list {
+  border-top: 2px solid var(--ink);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.25rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.2s;
+}
+
+.item:hover {
+  background: var(--surface);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--sky-50);
+  color: var(--sky-700);
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.itemBody {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.itemBody strong {
+  font-size: 1.15rem;
+}
+
+.itemBody span {
+  color: var(--ink-60);
+}
+
+.itemPrice {
+  display: grid;
+  justify-items: end;
+  text-align: right;
+  color: var(--ink-60);
+}
+
+.itemPrice strong {
+  color: var(--sky-700);
+  font-size: 1.2rem;
+}
+
+.itemPrice small {
+  font-size: 0.8rem;
+}
+
+.note {
+  margin-top: 1rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-60);
+}
+
+.daycare {
+  padding-block: var(--section);
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.daycareInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.daycarePhoto {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.daycarePrice {
+  margin-top: 1.2rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 860px) {
+  .heroInner,
+  .daycareInner {
+    grid-template-columns: 1fr;
+  }
+
+  .item {
+    grid-template-columns: 44px 1fr;
+  }
+
+  .icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .itemPrice {
+    grid-column: 2;
+    justify-items: start;
+    text-align: left;
+  }
+}

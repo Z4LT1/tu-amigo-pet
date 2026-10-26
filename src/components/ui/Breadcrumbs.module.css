@@ -1,0 +1,32 @@
+.nav ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  font-size: 0.86rem;
+  color: var(--ink-60);
+}
+
+.nav li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav a:hover {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nav svg {
+  width: 14px;
+  height: 14px;
+}
+
+.nav [aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}

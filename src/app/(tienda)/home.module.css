@@ -1,0 +1,356 @@
+/* ─── Categorías bajo la portada ──────────────────────────────────────── */
+
+.cats {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.cats ul {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-block: 0.9rem;
+  scrollbar-width: none;
+}
+
+.cats ul::-webkit-scrollbar {
+  display: none;
+}
+
+.cats a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.cats a:hover {
+  border-color: var(--brand);
+  background: var(--brand-50);
+}
+
+.cats span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-60);
+}
+
+/* ─── Encabezados de sección ──────────────────────────────────────────── */
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.head h2 {
+  font-size: var(--fs-2xl);
+}
+
+.head p {
+  margin-top: 0.4rem;
+  max-width: 60ch;
+}
+
+/* ─── Ofertas ─────────────────────────────────────────────────────────── */
+
+.sale {
+  padding-block: var(--section);
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+/* ─── Clínica (mundo celeste) ─────────────────────────────────────────── */
+
+.clinic {
+  padding-block: var(--section);
+  background: var(--sky-50);
+}
+
+.clinicInner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.clinic h2 {
+  font-size: var(--fs-3xl);
+  color: var(--sky-700);
+  max-width: 14ch;
+}
+
+.clinicLead {
+  margin-top: 1rem;
+  max-width: 52ch;
+  font-size: var(--fs-lg);
+  color: var(--ink-80);
+}
+
+/* Lista de precios con puntos guía, como la pizarra de una consulta */
+.priceList {
+  margin-top: 2rem;
+  border-top: 2px solid var(--sky-700);
+}
+
+.priceList a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid rgb(15 106 156 / 0.2);
+  font-size: 1.08rem;
+}
+
+.priceList a span {
+  font-weight: 600;
+}
+
+.priceList i {
+  flex: 1;
+  border-bottom: 2px dotted rgb(15 106 156 / 0.35);
+  transform: translateY(-4px);
+}
+
+.priceList strong {
+  color: var(--sky-700);
+  white-space: nowrap;
+}
+
+.priceList a:hover span {
+  color: var(--sky-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clinicCard {
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.clinicPhoto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+.clinicPhoto img {
+  object-fit: cover;
+}
+
+.slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+}
+
+.slot p {
+  display: grid;
+  font-size: 0.9rem;
+  color: var(--ink-60);
+}
+
+.slot strong {
+  font-size: 1.3rem;
+  font-stretch: 110%;
+  color: var(--ink);
+}
+
+/* ─── Guardería ───────────────────────────────────────────────────────── */
+
+.daycare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.daycarePhoto {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.daycarePhoto img {
+  object-fit: cover;
+}
+
+.daycare h2 {
+  font-size: var(--fs-3xl);
+  max-width: 14ch;
+}
+
+.daycareLead {
+  margin-top: 1rem;
+  font-size: var(--fs-lg);
+  color: var(--ink-80);
+  max-width: 50ch;
+}
+
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 1.8rem 0 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  column-gap: 0.9rem;
+}
+
+.steps li::before {
+  content: counter(step);
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 800;
+}
+
+.steps span {
+  color: var(--ink-60);
+}
+
+/* ─── Farmacia ────────────────────────────────────────────────────────── */
+
+.pharmacy {
+  padding-block: var(--section);
+  background: linear-gradient(180deg, var(--sky-50), var(--paper));
+}
+
+.pharmacy h2 {
+  color: var(--sky-700);
+}
+
+/* ─── Consejos ────────────────────────────────────────────────────────── */
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.5rem;
+}
+
+.post h3 {
+  margin-top: 0.4rem;
+  font-size: 1.25rem;
+  font-stretch: 105%;
+}
+
+.post h3 a:hover {
+  color: var(--brand);
+}
+
+.post p:last-child {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.postImg {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 0.9rem;
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.postImg img {
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+
+.post:hover .postImg img {
+  transform: scale(1.03);
+}
+
+.postMeta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand);
+}
+
+/* ─── Visítanos ───────────────────────────────────────────────────────── */
+
+.visit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: var(--r-xl);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 21px, rgb(255 255 255 / 0.1) 21px 22px),
+    var(--brand);
+  color: #fff;
+}
+
+.visit h2 {
+  font-size: var(--fs-2xl);
+  margin-bottom: 0.5rem;
+}
+
+.visit ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.4rem;
+  color: rgb(255 255 255 / 0.85);
+}
+
+.visitActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ─── Móvil ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .clinicInner,
+  .daycare {
+    grid-template-columns: 1fr;
+  }
+
+  .posts {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: 78%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+
+  .post {
+    scroll-snap-align: start;
+  }
+
+  .visitActions,
+  .visitActions :global(.btn) {
+    width: 100%;
+  }
+}

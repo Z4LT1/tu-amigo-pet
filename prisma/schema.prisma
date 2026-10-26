@@ -1,0 +1,190 @@
+// Modelo de datos de Tu Amigo Pet.
+// En desarrollo se usa SQLite; para producción basta con cambiar el provider
+// a "postgresql" y apuntar DATABASE_URL a la instancia correspondiente.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Catálogo ────────────────────────────────────────────────────────────────
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  // TIENDA | FARMACIA
+  section     String    @default("TIENDA")
+  icon        String?
+  sortOrder   Int       @default(0)
+  products    Product[]
+}
+
+model Brand {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  color    String    @default("#1F2A44")
+  products Product[]
+}
+
+model Product {
+  id                   String   @id @default(cuid())
+  sku                  String   @unique
+  name                 String
+  slug                 String   @unique
+  shortDescription     String
+  description          String
+  // Precios en pesos chilenos (enteros, IVA incluido)
+  price                Int
+  compareAtPrice       Int?
+  cost                 Int?
+  stock                Int      @default(0)
+  minStock             Int      @default(5)
+  // PERRO | GATO | AMBOS | OTROS
+  species              String
+  // CACHORRO | ADULTO | SENIOR | TODAS
+  lifeStage            String   @default("TODAS")
+  presentation         String
+  weightKg             Float?
+  requiresPrescription Boolean  @default(false)
+  isFeatured           Boolean  @default(false)
+  isActive             Boolean  @default(true)
+  // Paleta usada por el packshot ilustrado cuando no hay fotografía
+  packColor            String   @default("#F2632A")
+  imageUrl             String?
+  categoryId           String
+  category             Category @relation(fields: [categoryId], references: [id])
+  brandId              String
+  brand                Brand    @relation(fields: [brandId], references: [id])
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  orderItems OrderItem[]
+  movements  InventoryMovement[]
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([species])
+}
+
+// ─── Inventario ──────────────────────────────────────────────────────────────
+
+model InventoryMovement {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  // ENTRADA | SALIDA | AJUSTE | VENTA | DEVOLUCION
+  type      String
+  // Positivo suma stock, negativo descuenta
+  quantity  Int
+  stockAfter Int
+  reason    String?
+  reference String?
+  createdBy String?
+  createdAt DateTime @default(now())
+
+  @@index([productId, createdAt])
+}
+
+// ─── Ventas ──────────────────────────────────────────────────────────────────
+
+model Order {
+  id             String      @id @default(cuid())
+  code           String      @unique
+  customerName   String
+  email          String
+  phone          String
+  rut            String?
+  // DESPACHO | RETIRO
+  deliveryMethod String
+  address        String?
+  comuna         String?
+  region         String?
+  notes          String?
+  // WEBPAY | TRANSFERENCIA | EFECTIVO_RETIRO
+  paymentMethod  String
+  // PENDIENTE | PAGADO | PREPARANDO | ENVIADO | ENTREGADO | CANCELADO
+  status         String      @default("PENDIENTE")
+  subtotal       Int
+  discount       Int         @default(0)
+  shippingCost   Int
+  total          Int
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  sku       String
+  unitPrice Int
+  quantity  Int
+}
+
+// ─── Servicios y agenda ──────────────────────────────────────────────────────
+
+model Service {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  summary      String
+  description  String
+  priceFrom    Int?
+  durationMin  Int           @default(30)
+  icon         String        @default("stethoscope")
+  // CLINICA (bloques de atención) | GUARDERIA (cupos por día)
+  kind         String        @default("CLINICA")
+  isActive     Boolean       @default(true)
+  sortOrder    Int           @default(0)
+  appointments Appointment[]
+}
+
+model Appointment {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
+  ownerName  String
+  email      String
+  phone      String
+  petName    String
+  species    String
+  petAge     String?
+  date       String   // YYYY-MM-DD
+  time       String   // HH:mm
+  notes      String?
+  // SOLICITADA | CONFIRMADA | COMPLETADA | CANCELADA
+  status     String   @default("SOLICITADA")
+  createdAt  DateTime @default(now())
+
+  @@index([date, time])
+}
+
+// ─── Administración y marketing ─────────────────────────────────────────────
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

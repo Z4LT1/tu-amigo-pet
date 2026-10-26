@@ -1,0 +1,266 @@
+/* La portada es la cortina azul del local, con fotos de la guardería pegadas encima */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0) 0 21px,
+      rgb(255 255 255 / 0.1) 21px 22px,
+      rgb(0 0 0 / 0.08) 22px 24px
+    ),
+    linear-gradient(180deg, #2f66b5, var(--brand) 60%, #24529a);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.inner > * {
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--fs-hero);
+  font-weight: 900;
+  font-stretch: 122%;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  max-width: 15ch;
+}
+
+.lead {
+  margin-top: 1.4rem;
+  max-width: 46ch;
+  font-size: var(--fs-lg);
+  color: rgb(255 255 255 / 0.86);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 2rem;
+}
+
+.book {
+  --btn-bg: var(--red);
+  --btn-fg: #fff;
+}
+
+.book:hover {
+  background: var(--red-700);
+}
+
+/* ─── Fotos de la guardería ───────────────────────────────────────────── */
+
+.daycare {
+  position: relative;
+}
+
+.daycareTitle {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.7rem;
+  background: #fff;
+  color: var(--brand);
+  font-weight: 800;
+  font-stretch: 112%;
+  transform: rotate(-1.5deg);
+}
+
+.photos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto;
+  gap: 0.9rem;
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 14px 30px -12px rgb(0 0 0 / 0.45);
+  transform: rotate(var(--r, 0deg));
+}
+
+.photo:nth-child(1) {
+  grid-column: 1 / 4;
+  --r: -2deg;
+}
+
+.photo:nth-child(2) {
+  grid-column: 4 / 7;
+  margin-top: 2.2rem;
+  --r: 1.6deg;
+}
+
+.photo:nth-child(3) {
+  grid-column: 2 / 6;
+  aspect-ratio: 16 / 9;
+  margin-top: -1.2rem;
+  --r: -0.8deg;
+}
+
+/* cinta adhesiva */
+.photo::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  z-index: 2;
+  width: 64px;
+  height: 20px;
+  background: rgb(255 248 214 / 0.85);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.photo img {
+  object-fit: cover;
+  border: 6px solid #fff;
+  border-bottom-width: 52px;
+}
+
+.caption {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 6px;
+  display: grid;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.caption strong {
+  font-size: 0.92rem;
+}
+
+.caption span {
+  overflow: hidden;
+  font-size: 0.74rem;
+  color: var(--ink-60);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.daycareLink {
+  display: inline-block;
+  margin-top: 1.4rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.daycareLink:hover {
+  text-decoration-color: var(--yellow);
+}
+
+/* ─── La cortina que sube ─────────────────────────────────────────────── */
+
+.shutter {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #3a72c0 0 3px,
+      #2b5ea9 3px 20px,
+      #1d4580 20px 22px,
+      #4a80cc 22px 24px
+    );
+  animation: lift 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
+}
+
+.handle {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 90px;
+  height: 10px;
+  border-radius: 6px;
+  background: #1a3b6c;
+  transform: translateX(-50%);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.2);
+}
+
+@keyframes lift {
+  to {
+    transform: translateY(-101%);
+  }
+}
+
+:global(html[data-cortina="vista"]) .shutter {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shutter {
+    display: none;
+  }
+}
+
+/* ─── Móvil ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    padding-block: 2.2rem 2.6rem;
+  }
+
+  .title {
+    font-stretch: 112%;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .actions .book {
+    grid-column: 1 / -1;
+  }
+
+  .actions :global(.btn) {
+    padding-inline: 0.8rem;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* En el teléfono las fotos pasan a una tira deslizable */
+  .photos {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    grid-auto-columns: 58%;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 14px var(--gutter) 1rem;
+  }
+
+  .photos::-webkit-scrollbar {
+    display: none;
+  }
+
+  .photo,
+  .photo:nth-child(n) {
+    grid-column: auto;
+    margin-top: 0;
+    aspect-ratio: 4 / 5;
+    scroll-snap-align: center;
+  }
+}

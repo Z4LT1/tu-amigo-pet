@@ -1,0 +1,302 @@
+.page {
+  padding-block: 2.5rem var(--section);
+  max-width: 980px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.head > svg {
+  width: 48px;
+  height: 48px;
+  flex: none;
+}
+
+.head h1 {
+  font-size: var(--fs-2xl);
+}
+
+.head p {
+  margin-top: 0.4rem;
+  color: var(--ink-80);
+}
+
+.iconOk {
+  color: var(--ok);
+}
+
+.iconWait {
+  color: var(--brand);
+}
+
+.iconErr {
+  color: var(--err);
+}
+
+.notice {
+  display: grid;
+  justify-items: start;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
+  padding: 1.4rem;
+  border-radius: var(--r-lg);
+  background: var(--yellow-50);
+  border: 1px solid #f3e3a0;
+}
+
+.notice h2 {
+  font-size: 1.2rem;
+}
+
+.bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.8rem 1.5rem;
+  width: 100%;
+}
+
+.bank dt {
+  font-size: 0.82rem;
+  color: var(--ink-60);
+}
+
+.bank dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Línea de tiempo: el pedido sí es una secuencia */
+.timeline {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  list-style: none;
+  padding: 0;
+  margin-top: 2.2rem;
+  font-size: 0.86rem;
+  color: var(--ink-60);
+}
+
+.timeline li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: -50%;
+  right: 50%;
+  height: 3px;
+  background: var(--line);
+}
+
+.timeline li:first-child::before {
+  display: none;
+}
+
+.timeline span {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  background: var(--surface);
+}
+
+.timeline [data-state="done"]::before,
+.timeline [data-state="current"]::before {
+  background: var(--brand);
+}
+
+.timeline [data-state="done"] span {
+  border-color: var(--brand);
+  background: var(--brand);
+}
+
+.timeline [data-state="current"] {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.timeline [data-state="current"] span {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 5px var(--brand-50);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.25rem;
+  margin-top: 2.2rem;
+}
+
+.box {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.box h2 {
+  font-size: 1.2rem;
+}
+
+.box a {
+  text-decoration: underline;
+}
+
+.items {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.totals,
+.facts {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.totals div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totals dd,
+.facts dd {
+  margin: 0;
+}
+
+.grand {
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+}
+
+.facts dt {
+  color: var(--ink-60);
+}
+
+.facts dd {
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+/* ─── Pasarela simulada ───────────────────────────────────────────────── */
+
+.gateway {
+  display: grid;
+  gap: 1rem;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 1.75rem;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+}
+
+.gateway header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.gateway header svg {
+  width: 20px;
+  height: 20px;
+  color: var(--ok);
+}
+
+.gateway dl {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.gateway dl div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gateway dt {
+  color: var(--ink-60);
+}
+
+.gateway dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.amount {
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+
+.amount dd {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.demo {
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--r-sm);
+  background: var(--yellow-50);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.9rem;
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+
+.card svg {
+  width: 22px;
+  height: 22px;
+  color: var(--brand);
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline {
+    font-size: 0.72rem;
+  }
+}

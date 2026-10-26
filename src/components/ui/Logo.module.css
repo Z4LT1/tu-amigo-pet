@@ -1,0 +1,40 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink);
+}
+
+.mark {
+  flex: none;
+  border-radius: 13px;
+}
+
+.word {
+  display: grid;
+  gap: 0.2rem;
+  line-height: 1;
+}
+
+.name {
+  font-family: var(--ff-display);
+  font-weight: 900;
+  font-stretch: 118%;
+  font-size: 1.28rem;
+  letter-spacing: -0.02em;
+  color: var(--brand);
+}
+
+.kind {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-60);
+}
+
+.inverted .name {
+  color: #fff;
+}
+
+.inverted .kind {
+  color: rgb(255 255 255 / 0.7);
+}
