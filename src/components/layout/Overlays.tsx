@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { ArrowRight, CalendarDays, ChevronRight, ShoppingBag, Trash2, Truck, X } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { PackShot } from "@/components/product/PackShot";
+import { ProductThumb } from "@/components/product/ProductThumb";
 import { QuantityStepper } from "@/components/product/QuantityStepper";
 import { site } from "@/config/site";
 import { cartSubtotal, useCart } from "@/lib/cart-store";
@@ -102,7 +102,7 @@ function CartDrawer() {
               {items.map((item) => (
                 <li key={item.productId} className={styles.line}>
                   <Link href={`/producto/${item.slug}`} onClick={close} className={styles.lineThumb}>
-                    <PackShot brand={item.brand} color={item.packColor} icon={item.categoryIcon} />
+                    <ProductThumb name={item.name} brand={item.brand} color={item.packColor} icon={item.categoryIcon} imageUrl={item.imageUrl} size={76} />
                   </Link>
                   <div className={styles.lineBody}>
                     <Link href={`/producto/${item.slug}`} onClick={close} className={styles.lineName}>

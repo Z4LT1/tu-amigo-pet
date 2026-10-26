@@ -46,3 +46,6 @@ next-env.d.ts
 
 # permitir plantilla de variables
 !.env.example
+
+# fotos subidas en desarrollo local
+/public/uploads

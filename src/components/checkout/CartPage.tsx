@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import { FreeShippingMeter } from "@/components/layout/Overlays";
-import { PackShot } from "@/components/product/PackShot";
+import { ProductThumb } from "@/components/product/ProductThumb";
 import { QuantityStepper } from "@/components/product/QuantityStepper";
 import { cartSubtotal, useCart } from "@/lib/cart-store";
 import { formatCLP } from "@/lib/format";
@@ -36,7 +36,7 @@ export function CartPage() {
         {items.map((item) => (
           <li key={item.productId} className={styles.cartLine}>
             <Link href={`/producto/${item.slug}`} className={styles.cartThumb}>
-              <PackShot brand={item.brand} color={item.packColor} icon={item.categoryIcon} />
+              <ProductThumb name={item.name} brand={item.brand} color={item.packColor} icon={item.categoryIcon} imageUrl={item.imageUrl} />
             </Link>
             <div className={styles.cartInfo}>
               <span className={styles.cartBrand}>{item.brand}</span>

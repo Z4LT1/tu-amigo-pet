@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import type { Product } from "@prisma/client";
 import { saveProduct, type ProductFormState } from "@/server/admin";
 import { PackShot } from "@/components/product/PackShot";
+import { ImageUploader } from "./ImageUploader";
 import styles from "@/app/admin/admin.module.css";
 
 type Option = { id: string; name: string; icon?: string | null };
@@ -119,17 +120,24 @@ export function ProductForm({ product, categories, brands }: { product?: Product
       </section>
 
       <section className={styles.panel}>
-        <h2>Imagen y visibilidad</h2>
+        <h2>Foto</h2>
+        <ImageUploader
+          initialUrl={product?.imageUrl}
+          fallback={
+            <PackShot
+              brand={brands.find((b) => b.id === product?.brandId)?.name ?? "Tu marca"}
+              color={product?.packColor ?? "#2a5da8"}
+              icon={categories.find((c) => c.id === product?.categoryId)?.icon}
+              presentation={product?.presentation}
+            />
+          }
+        />
+        {err("imageUrl")}
+      </section>
+
+      <section className={styles.panel}>
+        <h2>Visibilidad</h2>
         <div className={styles.grid2}>
-          <div className="field">
-            <label htmlFor="imageUrl">URL de la foto (opcional)</label>
-            <input id="imageUrl" name="imageUrl" type="url" className="input" placeholder="https://…" defaultValue={product?.imageUrl ?? ""} aria-invalid={!!e.imageUrl} />
-            {err("imageUrl")}
-          </div>
-          <div className="field">
-            <label htmlFor="packColor">Color del envase ilustrado (si no hay foto)</label>
-            <input id="packColor" name="packColor" type="color" className={`input ${styles.color}`} defaultValue={product?.packColor ?? "#2a5da8"} />
-          </div>
           <div className={styles.checks}>
             <label className="check">
               <input type="checkbox" name="isActive" defaultChecked={product?.isActive ?? true} /> Visible en la tienda
@@ -141,11 +149,10 @@ export function ProductForm({ product, categories, brands }: { product?: Product
               <input type="checkbox" name="requiresPrescription" defaultChecked={product?.requiresPrescription} /> Requiere receta (solo venta en local)
             </label>
           </div>
-          {product && !product.imageUrl && (
-            <div className={styles.preview}>
-              <PackShot brand={brands.find((b) => b.id === product.brandId)?.name ?? ""} color={product.packColor} icon={categories.find((c) => c.id === product.categoryId)?.icon} presentation={product.presentation} />
-            </div>
-          )}
+          <div className="field">
+            <label htmlFor="packColor">Color del envase ilustrado (se usa si no hay foto)</label>
+            <input id="packColor" name="packColor" type="color" className={`input ${styles.color}`} defaultValue={product?.packColor ?? "#2a5da8"} />
+          </div>
         </div>
       </section>
 

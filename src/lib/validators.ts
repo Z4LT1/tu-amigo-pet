@@ -83,7 +83,12 @@ export const productSchema = z.object({
   categoryId: z.string().min(1),
   brandId: z.string().min(1),
   packColor: z.string().regex(/^#[0-9a-fA-F]{6}$/),
-  imageUrl: z.string().trim().url().optional().or(z.literal("").transform(() => undefined)),
+  imageUrl: z
+    .string()
+    .trim()
+    .refine((v) => /^https:\/\/\S+$/.test(v) || /^\/uploads\/[\w.-]+$/.test(v), "Usa una dirección que empiece con https:// o sube una foto.")
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
   isActive: z.coerce.boolean(),
   isFeatured: z.coerce.boolean(),
   requiresPrescription: z.coerce.boolean(),

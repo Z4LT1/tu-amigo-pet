@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
       price: true,
       presentation: true,
       packColor: true,
+      imageUrl: true,
       brand: { select: { name: true } },
       category: { select: { icon: true, name: true } },
     },

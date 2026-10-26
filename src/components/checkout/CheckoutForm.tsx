@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { CreditCard, Landmark, Lock, Store, Truck, Wallet } from "lucide-react";
-import { PackShot } from "@/components/product/PackShot";
+import { ProductThumb } from "@/components/product/ProductThumb";
 import { site } from "@/config/site";
 import { cartSubtotal, useCart } from "@/lib/cart-store";
 import { REGIONS } from "@/lib/constants";
@@ -206,7 +206,7 @@ export function CheckoutForm() {
           {items.map((i) => (
             <li key={i.productId}>
               <span className={styles.summaryThumb}>
-                <PackShot brand={i.brand} color={i.packColor} icon={i.categoryIcon} />
+                <ProductThumb name={i.name} brand={i.brand} color={i.packColor} icon={i.categoryIcon} imageUrl={i.imageUrl} size={56} />
                 <em>{i.quantity}</em>
               </span>
               <span className={styles.summaryName}>

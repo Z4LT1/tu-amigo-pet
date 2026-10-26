@@ -2,7 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    // Fotos de producto: subidas a Vercel Blob o enlaces https de cualquier sitio (proveedores, marcas)
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
   async headers() {
     return [

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Search } from "lucide-react";
-import { PackShot } from "@/components/product/PackShot";
+import { ProductThumb } from "@/components/product/ProductThumb";
 import { formatCLP } from "@/lib/format";
 import styles from "./SearchBox.module.css";
 
@@ -14,6 +14,7 @@ type Suggestion = {
   price: number;
   presentation: string;
   packColor: string;
+  imageUrl: string | null;
   brand: { name: string };
   category: { icon: string | null; name: string };
 };
@@ -129,7 +130,9 @@ export function SearchBox({ autoFocus = false, onNavigate, id = "buscador" }: { 
                       go(`/producto/${item.slug}`);
                     }}
                   >
-                    <PackShot brand={item.brand.name} color={item.packColor} icon={item.category.icon} className={styles.thumb} />
+                    <span className={styles.thumb}>
+                      <ProductThumb name={item.name} brand={item.brand.name} color={item.packColor} icon={item.category.icon} imageUrl={item.imageUrl} size={48} />
+                    </span>
                     <span className={styles.meta}>
                       <span className={styles.name}>{item.name}</span>
                       <span className={styles.sub}>

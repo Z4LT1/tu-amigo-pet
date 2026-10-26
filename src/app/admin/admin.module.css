@@ -597,6 +597,94 @@ a.kpi:hover {
   background: var(--paper);
 }
 
+/* ─── Subida de foto ──────────────────────────────────────────────────── */
+
+.uploader {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.uploaderPreview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.uploaderPreview > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.uploaderImg {
+  object-fit: contain;
+  padding: 8%;
+}
+
+.uploaderOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(255 255 255 / 0.8);
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.uploaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.uploaderActions p {
+  flex-basis: 100%;
+  font-size: 0.88rem;
+}
+
+.uploaderActions label {
+  cursor: pointer;
+}
+
+.linkToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--brand);
+}
+
+.linkToggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.okText {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.uploader > .span2 {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 520px) {
+  .uploader {
+    grid-template-columns: 1fr;
+  }
+
+  .uploaderPreview {
+    max-width: 220px;
+  }
+}
+
 .formActions {
   position: sticky;
   bottom: 0;

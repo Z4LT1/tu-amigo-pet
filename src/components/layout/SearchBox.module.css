@@ -104,10 +104,12 @@
 }
 
 .thumb {
+  display: block;
   width: 48px;
   height: 48px;
   border-radius: 12px;
   background: var(--paper-200);
+  overflow: hidden;
 }
 
 .meta {
