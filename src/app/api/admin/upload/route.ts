@@ -7,6 +7,15 @@ const TYPES: Record<string, string> = { "image/webp": "webp", "image/jpeg": "jpg
 const MAX_BYTES = 4 * 1024 * 1024;
 
 /**
+ * Token del Blob store. Vercel lo llama BLOB_READ_WRITE_TOKEN, pero si al conectar
+ * el store se eligió otro prefijo la variable cambia de nombre (p. ej. FOTOS_READ_WRITE_TOKEN).
+ */
+function blobToken() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
+  return Object.entries(process.env).find(([key, value]) => key.endsWith("READ_WRITE_TOKEN") && value?.startsWith("vercel_blob_rw_"))?.[1];
+}
+
+/**
  * Subida de fotos de producto desde el panel. La imagen llega ya reducida desde el
  * navegador; aquí se valida y se guarda en Vercel Blob. En desarrollo con base de datos
  * local y sin token de Blob, se guarda en /public/uploads para poder probar sin configurar nada.
@@ -24,8 +33,9 @@ export async function POST(request: NextRequest) {
 
   const name = `producto-${Date.now().toString(36)}-${randomBytes(3).toString("hex")}.${ext}`;
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`productos/${name}`, file, { access: "public", contentType: file.type });
+  const token = blobToken();
+  if (token) {
+    const blob = await put(`productos/${name}`, file, { access: "public", contentType: file.type, token });
     return NextResponse.json({ url: blob.url });
   }
 
@@ -40,8 +50,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: `/uploads/${name}` });
   }
 
+  const where = process.env.VERCEL ? "en Vercel (Settings → Environment Variables, entorno Production)" : "en tu archivo .env local";
   return NextResponse.json(
-    { error: "El almacenamiento de fotos no está activado. Falta BLOB_READ_WRITE_TOKEN (Vercel → Storage → Blob)." },
+    { error: `El almacenamiento de fotos no está activado: falta la clave del Blob store ${where}.` },
     { status: 503 },
   );
 }
