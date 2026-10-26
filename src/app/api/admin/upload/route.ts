@@ -7,8 +7,9 @@ const TYPES: Record<string, string> = { "image/webp": "webp", "image/jpeg": "jpg
 const MAX_BYTES = 4 * 1024 * 1024;
 
 /**
- * Token del Blob store. Vercel lo llama BLOB_READ_WRITE_TOKEN, pero si al conectar
- * el store se eligió otro prefijo la variable cambia de nombre (p. ej. FOTOS_READ_WRITE_TOKEN).
+ * Credenciales del Blob store. Los stores conectados hoy usan OIDC (BLOB_STORE_ID + token
+ * automático de Vercel, que la librería resuelve sola). Los más antiguos usan
+ * BLOB_READ_WRITE_TOKEN, que puede tener otro prefijo (p. ej. FOTOS_READ_WRITE_TOKEN).
  */
 function blobToken() {
   if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
@@ -34,9 +35,14 @@ export async function POST(request: NextRequest) {
   const name = `producto-${Date.now().toString(36)}-${randomBytes(3).toString("hex")}.${ext}`;
 
   const token = blobToken();
-  if (token) {
-    const blob = await put(`productos/${name}`, file, { access: "public", contentType: file.type, token });
-    return NextResponse.json({ url: blob.url });
+  if (token || process.env.BLOB_STORE_ID) {
+    try {
+      const blob = await put(`productos/${name}`, file, { access: "public", contentType: file.type, ...(token ? { token } : {}) });
+      return NextResponse.json({ url: blob.url });
+    } catch (error) {
+      console.error("Error al subir a Vercel Blob", error);
+      return NextResponse.json({ error: "No se pudo guardar la foto en el almacenamiento. Intenta de nuevo en un momento." }, { status: 502 });
+    }
   }
 
   // Solo con base local: con una base compartida (Neon) la ruta local quedaría rota en el sitio publicado
