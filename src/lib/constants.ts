@@ -42,6 +42,17 @@ export const PAYMENT_METHODS = {
   EFECTIVO_RETIRO: "Pago al retirar en tienda",
 } as const;
 
+/** Códigos de tipo de pago que informa Webpay. */
+export const WEBPAY_PAYMENT_TYPES: Record<string, string> = {
+  VD: "Débito",
+  VP: "Prepago",
+  VN: "Crédito sin cuotas",
+  VC: "Crédito en cuotas",
+  SI: "3 cuotas sin interés",
+  S2: "2 cuotas sin interés",
+  NC: "Cuotas sin interés",
+};
+
 export const DELIVERY_METHODS = {
   DESPACHO: "Despacho a domicilio",
   RETIRO: "Retiro en tienda",

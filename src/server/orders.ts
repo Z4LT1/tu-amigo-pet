@@ -3,10 +3,11 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/db";
-import { orderCode } from "@/lib/codes";
+import { orderCode, webpayBuyOrder } from "@/lib/codes";
 import { shippingCost } from "@/lib/shipping";
 import { checkoutSchema, fieldErrors, type CheckoutInput } from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
+import { webpayTransaction } from "@/lib/webpay";
 
 export type CheckoutResult = { ok: false; errors: Record<string, string> } | { ok: true; code: string; next: string };
 
@@ -97,18 +98,33 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
   return { ok: true, code, next };
 }
 
+export type WebpayStart = { url?: string; token?: string; error?: string };
+
 /**
- * Simulación de la respuesta de la pasarela. En producción este paso lo
- * reemplaza el retorno de Transbank Webpay Plus (commit de la transacción).
+ * Crea la transacción en Transbank y entrega los datos para ir a su formulario.
+ * El pago se confirma después, en /api/webpay/retorno. Cada intento usa una orden
+ * de compra distinta porque Transbank la exige única; el código del pedido viaja
+ * como sessionId para reconocerlo si el cliente anula o el formulario expira.
  */
-export async function simulatePayment(code: string, approved: boolean) {
+export async function startWebpayPayment(code: string): Promise<WebpayStart> {
+  const head = await headers();
+  if (!rateLimit(`webpay:${head.get("x-forwarded-for") ?? "local"}`, 10, 60_000).ok) {
+    return { error: "Demasiados intentos. Espera un minuto e inténtalo de nuevo." };
+  }
+
   const order = await prisma.order.findUnique({ where: { code } });
   if (!order || order.status !== "PENDIENTE" || order.paymentMethod !== "WEBPAY") redirect(`/pedido/${code}`);
-  if (approved) {
-    await prisma.order.update({ where: { code }, data: { status: "PAGADO" } });
-    redirect(`/pedido/${code}?pago=aprobado`);
+
+  const host = head.get("x-forwarded-host") ?? head.get("host");
+  const protocol = head.get("x-forwarded-proto") ?? "http";
+  try {
+    const { token, url } = await webpayTransaction().create(webpayBuyOrder(code), code, order.total, `${protocol}://${host}/api/webpay/retorno`);
+    await prisma.order.update({ where: { code }, data: { paymentToken: token } });
+    return { url, token };
+  } catch (error) {
+    console.error("Error al iniciar el pago en Webpay", code, error);
+    return { error: "No pudimos conectar con Webpay. Inténtalo de nuevo en unos minutos." };
   }
-  redirect(`/pedido/${code}?pago=rechazado`);
 }
 
 export async function trackOrder(_: unknown, formData: FormData) {

@@ -16,3 +16,6 @@ export function orderCode(date = new Date()) {
 }
 
 export const appointmentCode = () => `RES-${randomCode(6)}`;
+
+/** Orden de compra de un intento de pago (máximo 26 caracteres, según Transbank). */
+export const webpayBuyOrder = (code: string) => `${code}-${randomCode(4)}`;

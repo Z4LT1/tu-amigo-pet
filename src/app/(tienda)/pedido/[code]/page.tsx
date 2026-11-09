@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { CircleCheck, CircleX, Clock } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { site } from "@/config/site";
-import { DELIVERY_METHODS, ORDER_STATUS, PAYMENT_METHODS } from "@/lib/constants";
+import { DELIVERY_METHODS, ORDER_STATUS, PAYMENT_METHODS, WEBPAY_PAYMENT_TYPES } from "@/lib/constants";
 import { formatCLP, formatDateTime } from "@/lib/format";
 import styles from "../order.module.css";
 
@@ -60,6 +60,21 @@ export default async function OrderPage({ params, searchParams }: Props) {
           <Link href={`/checkout/pago/${order.code}`} className="btn btn--primary">
             Reintentar pago
           </Link>
+        </div>
+      )}
+
+      {!rejected && order.status === "PENDIENTE" && order.paymentMethod === "WEBPAY" && (
+        <div className={styles.notice}>
+          <p>Todavía no recibimos el pago de este pedido.</p>
+          <Link href={`/checkout/pago/${order.code}`} className="btn btn--primary">
+            Pagar con Webpay
+          </Link>
+        </div>
+      )}
+
+      {pago === "revertido" && (
+        <div className={styles.notice}>
+          <p>Este pedido ya no estaba vigente, así que anulamos el cobro. Si ves el cargo en tu cuenta, escríbenos con tu número de pedido.</p>
         </div>
       )}
 
@@ -169,6 +184,40 @@ export default async function OrderPage({ params, searchParams }: Props) {
               <dt>Pago</dt>
               <dd>{PAYMENT_METHODS[order.paymentMethod as keyof typeof PAYMENT_METHODS]}</dd>
             </div>
+            {order.paymentAuthCode && (
+              <>
+                <div>
+                  <dt>Comercio</dt>
+                  <dd>{site.legalName}</dd>
+                </div>
+                <div>
+                  <dt>Monto pagado</dt>
+                  <dd>{formatCLP(order.total)}</dd>
+                </div>
+                <div>
+                  <dt>Autorización</dt>
+                  <dd>{order.paymentAuthCode}</dd>
+                </div>
+                <div>
+                  <dt>Tarjeta</dt>
+                  <dd>
+                    {WEBPAY_PAYMENT_TYPES[order.paymentTypeCode ?? ""] ?? "Tarjeta"} terminada en {order.paymentCardLast4}
+                  </dd>
+                </div>
+                {Boolean(order.paymentInstallments) && (
+                  <div>
+                    <dt>Cuotas</dt>
+                    <dd>{order.paymentInstallments}</dd>
+                  </div>
+                )}
+                {order.paidAt && (
+                  <div>
+                    <dt>Fecha de pago</dt>
+                    <dd>{formatDateTime(order.paidAt)}</dd>
+                  </div>
+                )}
+              </>
+            )}
           </dl>
           <p className="muted">
             ¿Necesitas cambiar algo? Escríbenos por{" "}

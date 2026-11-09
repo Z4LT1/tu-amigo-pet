@@ -146,7 +146,9 @@ export async function updateOrderStatus(id: string, formData: FormData) {
   if (order.status === "CANCELADO") return; // un pedido cancelado no se reabre
 
   await prisma.$transaction(async (tx) => {
-    await tx.order.update({ where: { id }, data: { status } });
+    // Condicional: con doble clic en "cancelar", el stock se devuelve una sola vez
+    const changed = await tx.order.updateMany({ where: { id, status: { not: "CANCELADO" } }, data: { status } });
+    if (changed.count === 0) return;
     if (status === "CANCELADO") {
       for (const item of order.items) {
         const p = await tx.product.update({ where: { id: item.productId }, data: { stock: { increment: item.quantity } } });

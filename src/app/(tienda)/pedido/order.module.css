@@ -211,7 +211,7 @@
   margin-top: 2rem;
 }
 
-/* ─── Pasarela simulada ───────────────────────────────────────────────── */
+/* ─── Resumen antes de ir a Webpay ───────────────────────────────────────────────── */
 
 .gateway {
   display: grid;

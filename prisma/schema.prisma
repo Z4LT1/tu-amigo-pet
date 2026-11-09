@@ -115,6 +115,13 @@ model Order {
   discount       Int         @default(0)
   shippingCost   Int
   total          Int
+  // Datos que entrega Webpay; se muestran en el comprobante
+  paymentToken        String?   @unique
+  paymentAuthCode     String?
+  paymentCardLast4    String?
+  paymentTypeCode     String?
+  paymentInstallments Int?
+  paidAt              DateTime?
   items          OrderItem[]
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt

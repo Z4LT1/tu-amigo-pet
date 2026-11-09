@@ -118,6 +118,14 @@ export default async function OrderAdmin({ params }: Props) {
                 <dt>Pago</dt>
                 <dd>{PAYMENT_METHODS[order.paymentMethod as keyof typeof PAYMENT_METHODS]}</dd>
               </div>
+              {order.paymentAuthCode && (
+                <div>
+                  <dt>Autorización Webpay</dt>
+                  <dd>
+                    {order.paymentAuthCode}, tarjeta terminada en {order.paymentCardLast4}
+                  </dd>
+                </div>
+              )}
               {order.notes && (
                 <div>
                   <dt>Indicaciones</dt>

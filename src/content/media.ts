@@ -1,6 +1,5 @@
 /**
- * Fotografías de referencia (Unsplash, licencia libre) usadas mientras el local
- * no entregue fotos propias. Reemplazar por imágenes del negocio en /public.
+ * Fotografías de referencia (Unsplash, licencia libre) para la demostración.
  */
 const u = (id: string, w = 1200) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=75`;
 
@@ -21,7 +20,7 @@ export const photos = {
   goldenAndCat: u("photo-1765382119933-77efd0ee2921"),
 };
 
-/** "Hoy en la guardería": en producción lo actualiza el local desde el panel. */
+/** Fotos y notas de ejemplo para la sección "Hoy en la guardería". */
 export const daycareToday = [
   { name: "Rocky y Toby", note: "Llegaron 8:30, ya salieron a pasear", photo: photos.twoDogsPlaying },
   { name: "Canela", note: "Durmiendo siesta después del juego", photo: photos.twoDogsSun },
